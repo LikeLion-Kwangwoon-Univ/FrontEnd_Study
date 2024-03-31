@@ -1,5 +1,15 @@
 # 2장. 인터페이스
 
+> ## 목차
+>
+> > 1. [선택적 프로퍼티(Optional Property)](#🏀-선택적-프로퍼티optional-property)
+> > 2. [읽기전용 프로퍼티(Readonly Property)](#🏀-읽기전용-프로퍼티readonly-property)
+> > 3. [초과 프로퍼티 검사(Excess Property Check)](#🏀-초과-프로퍼티-검사excess-property-check)
+> > 4. [함수 타입](#🏀-함수-타입)
+> > 5. [인덱서블 타입(Indexable Type)](#🏀-인덱서블-타입-indexable-types)
+
+<br/>
+
 ```ts
 interface LabeledValue {
   label: string;
