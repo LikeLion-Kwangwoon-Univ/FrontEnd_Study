@@ -151,3 +151,72 @@ interface SearchFunc {
   (source: string, substring: string): boolean;
 }
 ```
+
+> 실 사용 예시
+
+```ts
+let mySearch: SearchFunc; // interface 할당
+mySearch = function (source: string, subString: string) {
+  let result = source.search(subString);
+  return result > -1;
+};
+```
+
+> 올바른 함수 타입 검사를 위해, 매개변수의 이름이 같을 필요는 없음.
+
+```ts
+let mySearch: SearchFunc;
+mySearch = function (src: string, sub: string): boolean {
+  let result = src.search(sub);
+  return result > -1;
+};
+```
+
+> 타입을 전혀 지정하지 않고 싶다면, SearchFunc 타입의 변수로 직접 함수 값이 할당되었기 때문에 TypeScript의 문맥상 타이핑 (contextual typing)이 인수 타입을 추론할 수 있음. 이 예제에서, 함수 표현의 반환 타입이 반환하는 값으로 추론됩니다. (여기서는 false와 true)
+
+```ts
+let mySearch: SearchFunc;
+mySearch = function (src, sub) {
+  // 리턴 값 추론 b/c 타입 지정x
+  let result = src.search(sub);
+  return result > 1;
+};
+```
+
+> 함수 표현식이 인터페이스에 지정한 boolean과 다른 형태 반환시, **_타입 검사는 반환 타입이 SearchFunc 인터페이스에 정의된 반환 타입과 일치하지 않는다는 에러를 발생_**시킵니다.
+
+```ts
+let mySearch: SearchFunc;
+
+// error: Type '(src: string, sub: string) => string' is not assignable to type 'SearchFunc'.
+// Type 'string' is not assignable to type 'boolean'.
+mySearch = function (src, sub) {
+  let result = src.search(sub);
+  return "string";
+};
+```
+
+<br />
+
+### 🏀 인덱서블 타입 (Indexable Types)
+
+---
+
+> 인터페이스로 a[10] 이나 ageMap["daniel"] 처럼 타입을 "인덱스로" 기술가능. 인덱서블 타입은 인덱싱 할때 해당 반환 유형과 함께 객체를 인덱싱하는 데 사용할 수 있는 타입을 기술하는 인덱스 시그니처 (index signature)를 가지고 있음.
+
+```ts
+interface StringArray {
+  [index: number]: string;
+}
+
+let myArray: StringArray;
+myArray = ["Bob", "Fred"];
+
+let myStr: string = myArray[0];
+```
+
+> 위 인덱스 서명이 있는 StringArray 인터페이스의 인덱스 서명은 StringArray가 number로 색인화(indexed)되면 string을 반환할 것 나타냄.
+
+> 인덱스 서명을 지원하는 타입에는 두 가지타입: 문자열과 숫자.
+
+> 두 타입의 인덱서(indexer)를 모두 지원하는 것은 가능하나, 숫자 인덱서에서 반환된 타입은 반드시 문자열 인덱서에서 반환된 타입의 하위 타입(subtype)이어야 함. 이 이유는 number로 인덱싱 할 때, JavaScript는 실제로 객체를 인덱싱하기 전에 string으로 변환하기 때문입니다. 즉, 100 (number)로 인덱싱하는 것은 "100" (string)로 인덱싱하는 것과 같기 때문에, 서로 일관성 있어야 함.
