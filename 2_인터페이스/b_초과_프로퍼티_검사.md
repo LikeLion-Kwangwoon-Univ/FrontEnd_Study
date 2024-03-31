@@ -29,7 +29,7 @@ let mySquare = createSquare({ colour: "red", width: 100 });
 
 JavaScript에서는 이러한 실수를 무시하지만, TypeScript는 객체 리터럴이 "대상 타입"에 선언되지 않은 프로퍼티를 가지고 있다면 에러를 발생시킨다. 이는 코드에 버그가 있을 수 있다는 신호이다.
 
-<br/><br/><br/>
+<br/><br/>
 
 ## 🐽 초과 프로퍼티 검사 피하기
 
