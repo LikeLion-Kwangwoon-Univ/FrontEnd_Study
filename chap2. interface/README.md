@@ -212,7 +212,7 @@ mySearch = function (src, sub) {
 
 ---
 
-> 인터페이스로 a[10] 이나 ageMap["daniel"] 처럼 타입을 "인덱스로" 기술가능. 인덱서블 타입은 인덱싱 할때 해당 반환 유형과 함께 객체를 인덱싱하는 데 사용할 수 있는 타입을 기술하는 인덱스 시그니처 (index signature)를 가지고 있음.
+> 인터페이스로 a[10] 이나 ageMap["daniel"] 처럼 타입을 "인덱스로" 기술가능. 인덱서블 타입은 **_인덱싱 할때 해당 반환 유형과 함께 객체를 인덱싱하는 데 사용할 수 있는 타입을 기술하는 인덱스 시그니처 (index signature)를 가지고 있음_**.
 
 ```ts
 interface StringArray {
@@ -222,11 +222,82 @@ interface StringArray {
 let myArray: StringArray;
 myArray = ["Bob", "Fred"];
 
-let myStr: string = myArray[0];
+let myStr: string = myArray[0]; // "Bob"
 ```
 
-> 위 인덱스 서명이 있는 StringArray 인터페이스의 인덱스 서명은 StringArray가 number로 색인화(indexed)되면 string을 반환할 것 나타냄.
+> 위 인덱스 서명이 있는 StringArray 인터페이스의 인덱스 서명은 **_StringArray가 number로 색인화(indexed)되면 string을 반환_**할 것 나타냄.
 
 > 인덱스 서명을 지원하는 타입에는 두 가지타입: 문자열과 숫자.
 
 > 두 타입의 인덱서(indexer)를 모두 지원하는 것은 가능하나, 숫자 인덱서에서 반환된 타입은 반드시 문자열 인덱서에서 반환된 타입의 하위 타입(subtype)이어야 함. 이 이유는 number로 인덱싱 할 때, JavaScript는 실제로 객체를 인덱싱하기 전에 string으로 변환하기 때문입니다. 즉, 100 (number)로 인덱싱하는 것은 "100" (string)로 인덱싱하는 것과 같기 때문에, 서로 일관성 있어야 함.
+
+```ts
+class Animal {
+  name: string;
+}
+class Dog extends Animal {
+  breed: string;
+}
+
+// 오류: 숫자형 문자열로 인덱싱을 하면 완전히 다른 타입의 Animal을 얻게 될 것입니다!
+interface NotOkay {
+  [x: number]: Animal;
+  [x: string]: Dog;
+}
+```
+
+<br />
+
+### 🏀 클래스 타입 (Class Type)
+
+---
+
+### 🏀 인터페이스 확장하기 (Extending Interfaces)
+
+---
+
+> 클래스처럼, **_인터페이스들도 확장(extend)이 가능_**. 이는 한 인터페이스의 멤버를 다른 인터페이스에 복사하는 것을 가능하게 해주는데, 인터페이스를 재사용성 높은 컴포넌트로 쪼갤 때, 유연함을 제공.
+
+```ts
+interface Shape {
+  color: string;
+}
+
+interface Square extends Shape {
+  sideLength: number;
+}
+
+let square = {} as Square;
+square.color = "blue";
+square.sideLength = 10;
+```
+
+> 인터페이스는 여러 인터페이스를 확장할 수 있어, 모든 인터페이스의 조합을 만들어낼 수 있음.
+
+<br />
+
+### 🏀 하이브리드 타입 (Hybrid Types)
+
+---
+
+> 인터페이스는 실제 JavaScript 세계에 존재하는 **_다양한 타입들을 기술할 수 있음_**. JavaScript의 동적이고 유연한 특성 때문에, 몇몇 타입의 조합으로 동작하는 객체를 기술할 때가 있음.
+
+```ts
+interface Counter {
+  (start: number): string;
+  interval: number;
+  reset(): void;
+}
+
+function getCounter(): Counter {
+  let counter = function (start: number) {} as Counter;
+  counter.interval = 123;
+  counter.reset = function () {};
+  return counter;
+}
+
+let c = getCounter();
+c(10);
+c.reset();
+c.interval = 5.0;
+```
