@@ -1,12 +1,10 @@
-<
-
-<!-- > ## 목차
+> ## 목차
 >
-> > 1. 함수 (Function)
-> > 2. [읽기전용 프로퍼티(Readonly Property)](#🏀-읽기전용-프로퍼티readonly-property)
-> > 3. [초과 프로퍼티 검사(Excess Property Check)](#🏀-초과-프로퍼티-검사excess-property-check)
-> > 4. [함수 타입](#🏀-함수-타입)
-> > 5. [인덱서블 타입(Indexable Type)](#🏀-인덱서블-타입-indexable-types) -->
+> > 1. [함수 (Function)](#🏀-함수function)
+> > 2. [함수 타입(Function Types)](#🏀-함수-타입function-types)
+> > 3. [선택적 매개변수와 기본 매개변수 (Optional and Default Parameter)](#🏀-선택적-매개변수와-기본-매개변수-optional-and-default-parameter)
+> > 4. [나머지 매개변수 (Rest Parameters)](#🏀-나머지-매개변수-rest-parameters)
+> > 5. [오버로드 (Overloads)](#🏀-오버로드-overloads)
 
 <br/>
 
@@ -14,7 +12,7 @@
 
 ---
 
-> TypeScript 함수는 JavaScript와 마찬가지로 기명 함수(named function)과 익명 함수(anonymous function)로 만들 수 있음.
+> TypeScript 함수는 JavaScript와 마찬가지로 `기명 함수`(named function)와 `익명 함수`(anonymous function)로 만들 수 있음.
 
 ```ts
 // 기명 함수
@@ -26,7 +24,7 @@ fucntion add(x, y) {
 let myAdd = function(x, y) { return x + y };
 ```
 
-> JavaScript에서처럼, 함수는 함수 외부의 변수를 참조할 수 있습니다. 이런 경우를, 변수를 캡처(capture) 한다고 함.
+> JavaScript에서처럼, 함수는 **함수 외부의 변수를 참조**할 수 있습니다. 이런 경우를, 변수를 `캡처`(capture) 한다고 함.
 
 ```ts
 let z = 100;
@@ -45,7 +43,7 @@ function addToZ(x, y) {
 ### &nbsp;&nbsp;⭐️&nbsp;함수의 타이핑 (Typing the function)
 
 ```ts
-// 기염 함수
+// 기명 함수
 function add(x: number, y: number): number {
   return x + y;
 }
@@ -55,7 +53,7 @@ let myAdd = function (x: number, y: number): number {
 };
 ```
 
-> 각 파라미터와 함수 자신의 반환될 타입을 정해줄 수 있음. 반환 문을 보고 반환 타입을 파악할 수 있으므로 반환 타입을 생략가능.
+> 각 파라미터와 함수 자신의 **반환될 타입을 정해줄 수 있음**. 반환 문을 보고 반환 타입을 파악할 수 있으므로 반환 타입을 **생략가능**.
 
 ### &nbsp;&nbsp;⭐️&nbsp;함수 타입 작성하기 (Writing the function type)
 
@@ -68,7 +66,7 @@ let myAdd: (x: number, y: number) => number = function (
 };
 ```
 
-> 함수의 타입은 매개변수의 타입과 반환 타입이 있음. 전체 함수 타입을 작성하고자 한다면 이 두 가지 타입이 필요. 매개변수 목록처럼 각 매개변수에 이름과 타입 타입을 작성.
+> 함수의 타입은 `매개변수의 타입`과 `반환 타입`이 있음. 전체 함수 타입을 작성하고자 한다면 이 두 가지 타입이 필요. 매개변수 목록처럼 각 매개변수에 이름과 타입 타입을 작성.
 
 ```ts
 // 함수 타입에 이름을 붙여도 됨.
@@ -80,9 +78,9 @@ let myAdd: (baseValue: number, increment: number) => number = function (
 };
 ```
 
-> 매개변수의 타입들이 올바르게 나열되어 있다면 함수 타입에 이름을 붙이더라도 유효한 타입으로 간주
+> 매개변수의 타입들이 올바르게 나열되어 있다면 **함수 타입에 이름**을 붙이더라도 유효한 타입으로 간주
 
-> 매개변수 타입들과 반환 타입 사이에 '화살표 표기'( => )를 써서 반환 타입을 분명히 할 수 있음. 함수가 값을 반환하지 않는다면 비워두는 대신 void를 써서 표시.
+> 매개변수 타입들과 반환 타입 사이에 '화살표 표기'( => )를 써서 반환 타입을 분명히 할 수 있음. 함수가 값을 반환하지 않는다면 비워두는 대신 `void`를 써서 표시.
 
 <br />
 
