@@ -24,7 +24,7 @@ let hiWorld = "Hi World";
 
 ---
 
-> 문자열 리터럴 타입은 유니언 타입, 타입 가드 그리고 타입 별칭과 잘 결합됩니다. 이런 기능을 함께 사용하여 문자열로 enum과 비슷한 형태를 갖출 수 있음.
+> 문자열 리터럴 타입은 `유니언 타입`, `타입 가드` 그리고 `타입 별칭`과 잘 결합됨. 이런 기능을 함께 사용하여 문자열로 enum과 비슷한 형태를 갖출 수 있음.
 
 ```ts
 // @errors: 2345
@@ -47,6 +47,21 @@ let button = new UIElement();
 button.animate(0, 0, "ease-in");
 button.animate(0, 0, "uneasy");
 ```
+
+> Erasing 리터럴 타입에 선언되지 않은 'uneasy'의 경우 오류 발생.
+
+```tsx
+function createElement(tagName: "img"): HTMLImageElement;
+function createElement(tagName: "input"): HTMLInputElement;
+// ... 추가적인 중복 정의들 ...
+function createElement(tagName: string): Element {
+  // ... 여기에 로직 추가 ...
+}
+```
+
+> 문자열 리터럴 타입은 오버로드를 구별하는 것과 동일한 방법으로 사용가능.
+
+<br />
 
 ### 🏀 숫자형 리터럴 타입 (Numeric Literal Types)
 
