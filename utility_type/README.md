@@ -52,7 +52,7 @@ todo.title = "Hello"; // 오류: 읽기 전용 프로퍼티에 재할당할 수 
 
 ---
 
-타입 `T`의 프로퍼티의 집합 `K`로 타입을 구성. 이 유틸리티는 타입의 프로퍼티들을 다른 타입에 매핑시키는 데 사용될 수 있음.
+타입 `T`의 프로퍼티의 집합 `K`로 타입을 구성. 키 `K`와 값 `T`를 가지는 객체를 만드는 유틸리티 타입.
 
 ```tsx
 interface PageInfo {
@@ -68,13 +68,14 @@ const x: Record<Page, PageInfo> = {
 };
 ```
 
+`Page`와 `PageInfo`를 매핑하는 객체 `x`를 만들었다.
 <br/>
 
 ### 🏀 Pick\<K,T>
 
 ---
 
-`T`에서 프로퍼티 `K`의 집합을 선택해 타입을 구성
+`T`에서 프로퍼티 `K`만 추출해 새로운 타입을 구성
 
 ```tsx
 interface Todo {
@@ -91,14 +92,14 @@ const todo: TodoPreview = {
 };
 ```
 
-`TodoPreview`에서 인터페이스 `Todo`의 프로퍼티 집합을 선택해 타입을 구성.
+`Todo`에서 `title`과 `completed`만 추출하고 싶을 때
 <br/>
 
 ### 🏀 Omit\<T,k>
 
 ---
 
-`T`에서 모든 프로퍼티를 선택한 다음 `K`를 제거한 타입을 구성합니다.
+`T`에서 프로퍼티 `K`를 제거한 새로운 타입을 구성.
 
 ```tsx
 interface Todo {
@@ -129,4 +130,61 @@ const todo: TodoPreview = {
 type T0 = Exclude<"a" | "b" | "c", "a">; // "b" | "c"
 type T1 = Exclude<"a" | "b" | "c", "a" | "b">; // "c"
 type T2 = Exclude<string | number | (() => void), Function>; // string | number
+```
+
+### 🏀 Required\<T>
+
+---
+
+`T`의 모든 프로퍼티를 필수로 만드는 유틸리티 타입
+
+```tsx
+interface UserInfo {
+  name: string;
+  age: number;
+  email?: string;
+}
+
+const user: Required<UserInfo> = {
+  name: "John",
+  age: 30,
+  email: "john@example.com", // ?여도 없으면 오류 발생.
+};
+```
+
+### 🏀 Extract\<T,U>
+
+---
+
+타입 `T`에서 `U`에 할당할 수 있는 타입만 추출하는 유틸리티 타입
+
+```tsx
+type T = "a" | "b" | "c";
+type U = Extract<T, "a" | "b">; // "a" | "b"
+```
+
+<br/>
+
+### 🏀 NonNullable\<T>
+
+---
+
+`null` 또는 `undefined`를 제외한 타입 `T`를 만드는 유틸리티 타입
+
+```tsx
+type T = string | null | undefined;
+type U = NonNullable<T>; // string
+```
+
+<br/>
+
+### 🏀 ReturnType\<T>
+
+---
+
+함수 타입 `T`의 반환 타입을 추출하는 유틸리티 타입
+
+```tsx
+type T = () => string;
+type U = ReturnType<T>; // string
 ```
