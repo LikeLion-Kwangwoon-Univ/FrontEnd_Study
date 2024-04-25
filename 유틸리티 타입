@@ -1,0 +1,108 @@
+> TypeScript는 공통 타입 변환을 용이하게 하기 윟 ㅐㅁ쳐 가지 유틸리티 타입을 제공한다.
+
+### Partial
+
+##### Usage
+``` typescript
+Partial<T>
+```
+
+> T의 모든 프로퍼티를 선택적으로 만드는 타입을 구성한다.
+> 이 유틸리티는 주어진 타입의 모든 하위 타입 집합을 나타내는 타입을 반환한다
+
+##### Example
+
+``` typescript
+interface Todo {
+	title: string;
+	description: string;
+}
+
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+	return {...todo, ...fieldsToUpdate};
+}
+
+const todo1 = {
+	title: 'organize desk',
+	description: 'clear clutter',
+};
+
+const todo2 = updateTodo(todo1, {
+	description: 'throw out trash',
+})
+```
+
+> [!info] Summary
+> Todo: title(string), description(string)
+> updateTodo(function): todo(Todo), filedsToUpdate(Todo의 Subset)
+
+> 즉, updateTodo의 인자값으로는
+> title(string),  description(string) : todo
+> title(string), description(string) "적어도 하나"를 가지고 있는 객체여야 한다. : fieldsToUpdate
+
+``` typescript
+// Result
+{ "title": "organize desk", "description": "throw out trash" }
+```
+
+### Readonly
+
+##### Usage
+
+``` typescript
+Readonly<T>
+```
+
+> T의 모든 프로퍼티를 읽기 전용으로 설정한 타입을 구성한다. 즉, 생성된 타입의 프로퍼티는 재할당할 수 없다.
+
+##### Example
+
+``` typescript
+interface Todo {
+	title: string;
+};
+
+const todo: Readonly<Todo> = {
+	title: 'Delete inactive uses',
+};
+
+todo.title = 'Hello'; // ERROR
+```
+
+>[!note] 중요
+>todo는 Todo interface를 Readonly로 설정하였기 때문에 재할당이 불가능하다.
+
+> 여기서 중요한 점은 실행 시키기 전 (컴파일) 타임에서 오류를 발생시켜, 의도치 않ㅇ느 데이터 변경을 방지할 수 있다는 점이다.
+
+### Record
+
+##### Usage
+
+``` typescript
+Record<K, T>
+```
+
+> 타입 T의 프로퍼티 집합 K로 타입을 구성한다. 프로퍼티들을 다른 타입에 매핑시키는 데 사용될 수 있다.
+
+- Key: K
+	-  일반적으로 string, number, symbol 등의 타입을 사용한다.
+- Type: T
+
+##### Example
+
+``` typescript
+interface PageInfo {
+	title: string;
+}
+
+type Page = 'home' | 'about' | 'contact';
+
+const x: Record<Page, PageInfo> = {
+	about: {title: 'about'},
+	contact: {title, 'contact'},
+	home: {title: 'home'},
+};
+```
+
+> Page의 Type 즉 'home', 'about', 'contact' 이 타입들은 Key가 되고, Key의 Type은 PageInfo가 되는 것이다.
+
