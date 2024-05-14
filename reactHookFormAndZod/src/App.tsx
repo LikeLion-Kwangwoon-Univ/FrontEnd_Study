@@ -5,20 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import schema from './\bconstants/zodSchema'
 
-interface SignUpType {
-	id: string
-	nickName: string
-	password: string
-	email: string
-	phone: string
-}
-
 function App() {
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
-	} = useForm<SignUpType>({
+	} = useForm({
 		resolver: zodResolver(schema),
 		defaultValues: {
 			id: '',
@@ -61,7 +53,6 @@ function App() {
 				{errors.email ? <Error>{errors.email.message}</Error> : <SuccessBox />}
 				<CustomInput
 					placeholder="핸드폰번호 Ex) 010-1234-5678"
-					// type="number"
 					{...register('phone')}
 				/>
 				{errors.phone ? <Error>{errors.phone.message}</Error> : <SuccessBox />}
