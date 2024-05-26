@@ -2,10 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import "./index.css";
-import SignUpZod from "./components/SignUpZod.jsx";
+import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <SignUpZod />
+    <App />
   </React.StrictMode>
 );
